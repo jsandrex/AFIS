@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.Select;
@@ -20,8 +21,8 @@ import java.sql.Connection;
 
 public class AFISKH_Regression {
 	
-
     WebDriver driver;
+    private String uniqueIdCardNumber; // Store the generated ID card number here for reuse
 
     @BeforeTest
     public void setup() {
@@ -35,50 +36,42 @@ public class AFISKH_Regression {
     // Method to generate a random 10-digit number
     public String generateRandomIdCardNumber() {
         Random rand = new Random();
-        String idCardNumber = null;  // Initialize the idCardNumber
+        String idCardNumber = null;
         
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:postgresql://10.100.100.170:5432/KH20170704_SAP", "postgres", "postgres123")) {
             
             do {
                 StringBuilder sb = new StringBuilder();
-
-                // Generate a 10-digit number (digits between 0 and 9)
                 for (int i = 0; i < 10; i++) {
-                    sb.append(rand.nextInt(10)); // Generate a digit between 0 and 9
+                    sb.append(rand.nextInt(10));
                 }
-                idCardNumber = sb.toString();  // Assign the generated number to idCardNumber
+                idCardNumber = sb.toString(); 
                 
-                // Query to check if the generated ID already exists in the database
                 String query = "SELECT COUNT(*) FROM m_customer WHERE idcardno = ?";
                 try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                    stmt.setString(1, idCardNumber);  // Set the generated ID to the query parameter
-                    ResultSet resultSet = stmt.executeQuery();  // Execute the query
+                    stmt.setString(1, idCardNumber);
+                    ResultSet resultSet = stmt.executeQuery();
                     
-                    
-                    // Check if the ID exists in the database
                     if (resultSet.next() && resultSet.getInt(1) == 0) {
                     	System.out.println("Generated ID Card number is not Duplicate");
-                        break;  // If the ID does not exist, exit the loop (ID is unique)
+                        break;
                     }
                 }
-            } while (true);  // Keep generating a new ID until it's unique
+            } while (true);
             
         } catch (Exception e) {
             e.printStackTrace();
-            return null;  // Handle exceptions and return null if the connection fails or another error occurs
+            return null;
         }
         
-        // Return the unique ID card number after ensuring it's unique
+        this.uniqueIdCardNumber = idCardNumber; // Store the unique ID in the class-level variable
         return idCardNumber;
     }
 
-
     @Test
     public void testLoginPage() throws InterruptedException {
-        //<LOGIN PAGE>
         driver.findElement(By.xpath("//*[@id=\"USERID\"]")).sendKeys("SOKMENG");
-
         WebElement passwordField = driver.findElement(By.xpath("//*[@id=\"PASSWORD\"]"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].value='SYSADMIN1';", passwordField);
         Thread.sleep(500);
@@ -87,7 +80,6 @@ public class AFISKH_Regression {
 
     @Test(dependsOnMethods = "testLoginPage")
     public void testHomePage() {
-        //<HOME PAGE>
         driver.findElement(By.xpath("//*[@id=\"sysLoginWrap\"]/div[2]/input[3]")).click();
         driver.findElement(By.xpath("//*[@id=\"menuToggleBtnWrap\"]/div[1]")).click();
         driver.findElement(By.xpath("//*[@id=\"navigation\"]/li[12]/a")).click();
@@ -95,19 +87,15 @@ public class AFISKH_Regression {
 
     @Test(dependsOnMethods = "testHomePage")
     public void testImageUpload() throws InterruptedException {
-        //<IMAGE UPLOAD>
-    	
         driver.findElement(By.id("FILENAME_0")).sendKeys("C:\\Users\\jsramos\\Pictures\\Signature.png");
         driver.findElement(By.id("FILENAME_1")).sendKeys("C:\\Users\\jsramos\\Pictures\\Signature.png");
         driver.findElement(By.xpath("/html/body/div[4]/form/div/div/input[1]")).click();
 
-        // Select "COPY OF BUSINESS LICENSE" using JavaScript
         WebElement imageTypeDropdown = driver.findElement(By.id("IMAGETYPE_1"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", imageTypeDropdown);
         Thread.sleep(500);
         ((JavascriptExecutor) driver).executeScript("arguments[0].value='1';", imageTypeDropdown);
 
-        // Select "APPLICANT PHOTO"
         WebElement imageTypeDropdown2 = driver.findElement(By.id("IMAGETYPE_2"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", imageTypeDropdown2);
         Thread.sleep(500);
@@ -116,11 +104,9 @@ public class AFISKH_Regression {
         driver.findElement(By.xpath("//*[@id=\"imgBand\"]/table/tbody/tr/td[1]/table/tbody/tr[4]/td/input[1]")).click();
         driver.findElement(By.xpath("//*[@id=\"imgBand\"]/table/tbody/tr/td[2]/table/tbody/tr[4]/td/input[1]")).click();
 
-        // Type of application
         Select TypeOfApplz = new Select(driver.findElement(By.id("APPLICATIONTYPE")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].value='1';", TypeOfApplz);
 
-        // Application date
         WebElement appldate = driver.findElement(By.xpath("/html/body/div[4]/form/div[3]/table/tbody/tr[2]/td[2]/input[2]"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", appldate);
 
@@ -138,16 +124,14 @@ public class AFISKH_Regression {
         Select IDcardType = new Select(driver.findElement(By.id("IDCARDTYPE")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].value='1';", IDcardType);
         
-     // Generate random ID card number and enter it
-        String randomIdCardNumber = generateRandomIdCardNumber();
+        String randomIdCardNumber = generateRandomIdCardNumber(); // Generate and store ID here
         driver.findElement(By.xpath("//*[@id=\"IDCARDNO\"]")).sendKeys(randomIdCardNumber);
         System.out.println("Random ID Card Number: " + randomIdCardNumber);
-        
+
         driver.findElement(By.xpath("/html/body/div[4]/form/div[3]/table/tbody/tr[2]/td[7]/input")).sendKeys("JAMES SELENIUM");
         driver.findElement(By.xpath("/html/body/div[4]/form/div[3]/div[1]/input")).click();
         driver.findElement(By.xpath("/html/body/div[4]/form/div[3]/div[2]/input[1]")).click();
 
-        // After clicking submit and waiting for the response message
         String successMessage = driver.findElement(By.xpath("//*[contains(text(), 'New Application number')]")).getText();
         String applicationNumber = successMessage.replaceAll(".*New Application number : ([\\d-]+).*", "$1");
         System.out.println("Application Number: " + applicationNumber);
@@ -155,7 +139,6 @@ public class AFISKH_Regression {
 
     @Test(dependsOnMethods = "testImageUpload")
     public void testHomePageToDE1() {
-        //<HOME PAGE GO TO DE1>
         driver.findElement(By.xpath("//*[@id=\"logoLink\"]/img")).click();
         driver.findElement(By.xpath("//*[@id=\"menuToggleBtnWrap\"]/div[1]")).click();
         driver.findElement(By.xpath("//*[@id=\"navigation\"]/li[3]/span")).click();
@@ -163,12 +146,18 @@ public class AFISKH_Regression {
         driver.findElement(By.xpath("//*[@id=\"navigation\"]/li[3]/ul/li[1]/ul/li[3]/a")).click();
     }
     
-    
+    @Test(dependsOnMethods = "testHomePageToDE1")
+    public void DataEntry1() {
+        Select idcardtype = new Select(driver.findElement(By.xpath("//*[@id=\"SEARCHIDCARDTYPE\"]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='1';", idcardtype);
+        WebElement idCardNoField = driver.findElement(By.xpath("/html/body/div[4]/form/div[1]/table/tbody/tr/td/table/tbody/tr/td[3]/input"));
+        idCardNoField.sendKeys(uniqueIdCardNumber); // Reuse the stored unique ID
+    }
 
-    //@AfterTest
-    //public void tearDown() {
-    //    if (driver != null) {
-    //        driver.quit();
-    //    }
-    //}
-}
+     
+//    @AfterTest
+//    public void tearDown() {
+//        if (driver != null) {
+//            driver.quit();
+  //      }
+    }
