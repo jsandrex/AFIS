@@ -9,11 +9,17 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.Select;
+
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
+import java.sql.Connection;
 
 public class AFISKH_Regression {
+	
 
     WebDriver driver;
 
@@ -29,15 +35,44 @@ public class AFISKH_Regression {
     // Method to generate a random 10-digit number
     public String generateRandomIdCardNumber() {
         Random rand = new Random();
-        StringBuilder sb = new StringBuilder();
+        String idCardNumber = null;  // Initialize the idCardNumber
+        
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:postgresql://10.100.100.170:5432/KH20170704_SAP", "postgres", "postgres123")) {
+            
+            do {
+                StringBuilder sb = new StringBuilder();
 
-        // Generate a 10-digit number (digits between 0 and 9)
-        for (int i = 0; i < 10; i++) {
-            sb.append(rand.nextInt(10)); // Generate a digit between 0 and 9
+                // Generate a 10-digit number (digits between 0 and 9)
+                for (int i = 0; i < 10; i++) {
+                    sb.append(rand.nextInt(10)); // Generate a digit between 0 and 9
+                }
+                idCardNumber = sb.toString();  // Assign the generated number to idCardNumber
+                
+                // Query to check if the generated ID already exists in the database
+                String query = "SELECT COUNT(*) FROM m_customer WHERE idcardno = ?";
+                try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                    stmt.setString(1, idCardNumber);  // Set the generated ID to the query parameter
+                    ResultSet resultSet = stmt.executeQuery();  // Execute the query
+                    
+                    
+                    // Check if the ID exists in the database
+                    if (resultSet.next() && resultSet.getInt(1) == 0) {
+                    	System.out.println("Generated ID Card number is not Duplicate");
+                        break;  // If the ID does not exist, exit the loop (ID is unique)
+                    }
+                }
+            } while (true);  // Keep generating a new ID until it's unique
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;  // Handle exceptions and return null if the connection fails or another error occurs
         }
-
-        return sb.toString();
+        
+        // Return the unique ID card number after ensuring it's unique
+        return idCardNumber;
     }
+
 
     @Test
     public void testLoginPage() throws InterruptedException {
