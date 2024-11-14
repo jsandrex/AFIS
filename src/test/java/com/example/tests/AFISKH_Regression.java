@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.Select;
@@ -147,17 +146,70 @@ public class AFISKH_Regression {
     }
     
     @Test(dependsOnMethods = "testHomePageToDE1")
-    public void DataEntry1() {
+    public void DataEntry1() throws InterruptedException {
         Select idcardtype = new Select(driver.findElement(By.xpath("//*[@id=\"SEARCHIDCARDTYPE\"]")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].value='1';", idcardtype);
         WebElement idCardNoField = driver.findElement(By.xpath("/html/body/div[4]/form/div[1]/table/tbody/tr/td/table/tbody/tr/td[3]/input"));
         idCardNoField.sendKeys(uniqueIdCardNumber); // Reuse the stored unique ID
+        
+        driver.findElement(By.name("BTN_QUERY")).click();
+        driver.findElement(By.name("Submit")).click();
+        
+        driver.findElement(By.xpath("//*[@id=\"CONTENTS_BODY\"]/table/tbody/tr[2]/td[3]/input")).sendKeys("1122334455");
+        driver.findElement(By.xpath("//*[@id=\"IDCARDEXPIRYDATE\"]")).click();
+        Select monthdatepick = new Select(driver.findElement(By.className("ui-datepicker-month")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='3';", monthdatepick);
+        Select yeardatepick = new Select(driver.findElement(By.className("ui-datepicker-year")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='2050';", yeardatepick);
+        LocalDate currentDate = LocalDate.now().plusYears(5);;
+        DateTimeFormatter dayFormat = DateTimeFormatter.ofPattern("d");
+        String currentDay = currentDate.format(dayFormat); 
+        driver.findElement(By.xpath("//td[normalize-space()='" + currentDay + "']")).click();
+        //
+        Select issuingstate = new Select(driver.findElement(By.id("ISSUINGSTATE")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='AFG';", issuingstate);
+        driver.findElement(By.xpath("//*[@id=\"CONTENTS_BODY\"]/table/tbody/tr[15]/td[3]/input")).sendKeys("James KH");
+        Select gender = new Select(driver.findElement(By.xpath("//*[@id=\"SEX\"]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='1';", gender);
+        Select nationality = new Select(driver.findElement(By.id("NATIONALITY")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='AFG';", nationality);
+        driver.findElement(By.xpath("//*[@id=\"CONTENTS_BODY\"]/table/tbody/tr[18]/td[3]/input")).sendKeys("01011990");
+        
+        //date of birth
+        driver.findElement(By.id("dp1731566682045")).click();
+        Select monthdatepick1 = new Select(driver.findElement(By.className("ui-datepicker-month")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='12';", monthdatepick1);
+        Select yeardatepick1 = new Select(driver.findElement(By.className("ui-datepicker-year")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='1990';", yeardatepick1);
+        LocalDate currentDate1 = LocalDate.now();
+        DateTimeFormatter dayFormat1 = DateTimeFormatter.ofPattern("d");
+        String currentDay1 = currentDate1.format(dayFormat1); 
+        driver.findElement(By.xpath("//td[normalize-space()='" + currentDay1 + "']")).click();
+        
+        
+        Select POB = new Select(driver.findElement(By.xpath("//*[@id=\"PLACEOFBIRTH\"]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='AFG';", POB);
+        Select residency = new Select(driver.findElement(By.xpath("//*[@id=\"RESIDENCY\"]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].value='AFG';", residency);
+        
+        
+      
+        
+        
+      
+        
+      
+      
+        
+      //*[@id="ISSUEDBY"]
+
     }
 
-     
-//    @AfterTest
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-  //      }
-    }
+    // After-test teardown
+    //@AfterTest
+    //public void tearDown() {
+    //    if (driver != null) {
+    //        driver.quit();
+    //    }
+    //}
+}
