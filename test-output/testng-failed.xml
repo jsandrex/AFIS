@@ -6,7 +6,11 @@
       <class name="com.example.tests.AFISKH_Regression">
         <methods>
           <include name="setup"/>
-          <include name="AFISKH"/>
+          <include name="DataEntry1"/>
+          <include name="testImageUpload"/>
+          <include name="testHomePage"/>
+          <include name="testLoginPage"/>
+          <include name="testHomePageToDE1"/>
         </methods>
       </class> <!-- com.example.tests.AFISKH_Regression -->
     </classes>

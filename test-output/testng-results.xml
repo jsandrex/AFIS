@@ -1,20 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+<testng-results ignored="0" total="5" passed="2" failed="1" skipped="2">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-10-24T16:48:33 PST" name="Default suite" finished-at="2024-10-24T16:48:42 PST" duration-ms="9599">
+  <suite started-at="2024-11-14T08:16:13 PST" name="Default suite" finished-at="2024-11-14T08:16:38 PST" duration-ms="25256">
     <groups>
     </groups>
-    <test started-at="2024-10-24T16:48:33 PST" name="Default test" finished-at="2024-10-24T16:48:42 PST" duration-ms="9599">
+    <test started-at="2024-11-14T08:16:13 PST" name="Default test" finished-at="2024-11-14T08:16:38 PST" duration-ms="25256">
       <class name="com.example.tests.AFISKH_Regression">
-        <test-method is-config="true" signature="setup()[pri:0, instance:com.example.tests.AFISKH_Regression@27406a17]" started-at="2024-10-24T16:48:33 PST" name="setup" finished-at="2024-10-24T16:48:38 PST" duration-ms="5170" status="PASS">
+        <test-method is-config="true" signature="setup()[pri:0, instance:com.example.tests.AFISKH_Regression@1813f3e9]" started-at="2024-11-14T08:16:13 PST" name="setup" finished-at="2024-11-14T08:16:17 PST" duration-ms="4054" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="AFISKH()[pri:0, instance:com.example.tests.AFISKH_Regression@27406a17]" started-at="2024-10-24T16:48:38 PST" name="AFISKH" finished-at="2024-10-24T16:48:42 PST" duration-ms="4338" status="PASS">
+        <test-method signature="testLoginPage()[pri:0, instance:com.example.tests.AFISKH_Regression@1813f3e9]" started-at="2024-11-14T08:16:17 PST" name="testLoginPage" finished-at="2024-11-14T08:16:19 PST" duration-ms="2345" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- AFISKH -->
+        </test-method> <!-- testLoginPage -->
+        <test-method signature="testHomePage()[pri:0, instance:com.example.tests.AFISKH_Regression@1813f3e9]" started-at="2024-11-14T08:16:19 PST" name="testHomePage" finished-at="2024-11-14T08:16:23 PST" depends-on-methods="com.example.tests.AFISKH_Regression.testLoginPage" duration-ms="3299" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testHomePage -->
+        <test-method signature="testImageUpload()[pri:0, instance:com.example.tests.AFISKH_Regression@1813f3e9]" started-at="2024-11-14T08:16:23 PST" name="testImageUpload" finished-at="2024-11-14T08:16:38 PST" depends-on-methods="com.example.tests.AFISKH_Regression.testHomePage" duration-ms="15318" status="FAIL">
+          <exception class="java.lang.IllegalArgumentException">
+            <message>
+              <![CDATA[Keys to send should be a not null CharSequence]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.IllegalArgumentException: Keys to send should be a not null CharSequence
+at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:96)
+at com.example.tests.AFISKH_Regression.testImageUpload(AFISKH_Regression.java:128)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.IllegalArgumentException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testImageUpload -->
+        <test-method signature="testHomePageToDE1()[pri:0, instance:com.example.tests.AFISKH_Regression@1813f3e9]" started-at="2024-11-14T08:16:38 PST" name="testHomePageToDE1" finished-at="2024-11-14T08:16:38 PST" depends-on-methods="com.example.tests.AFISKH_Regression.testImageUpload" duration-ms="0" status="SKIP">
+          <exception class="java.lang.Throwable">
+            <message>
+              <![CDATA[Method com.example.tests.AFISKH_Regression.testHomePageToDE1() on instance com.example.tests.AFISKH_Regression@1813f3e9 depends on not successfully finished methods 
+[com.example.tests.AFISKH_Regression.testImageUpload() on instance com.example.tests.AFISKH_Regression@1813f3e9]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.Throwable: Method com.example.tests.AFISKH_Regression.testHomePageToDE1() on instance com.example.tests.AFISKH_Regression@1813f3e9 depends on not successfully finished methods 
+[com.example.tests.AFISKH_Regression.testImageUpload() on instance com.example.tests.AFISKH_Regression@1813f3e9]
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:156)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.Throwable -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testHomePageToDE1 -->
+        <test-method signature="DataEntry1()[pri:0, instance:com.example.tests.AFISKH_Regression@1813f3e9]" started-at="2024-11-14T08:16:38 PST" name="DataEntry1" finished-at="2024-11-14T08:16:38 PST" depends-on-methods="com.example.tests.AFISKH_Regression.testHomePageToDE1" duration-ms="1" status="SKIP">
+          <exception class="java.lang.Throwable">
+            <message>
+              <![CDATA[Method com.example.tests.AFISKH_Regression.DataEntry1() on instance com.example.tests.AFISKH_Regression@1813f3e9 depends on not successfully finished methods 
+[com.example.tests.AFISKH_Regression.testHomePageToDE1() on instance com.example.tests.AFISKH_Regression@1813f3e9]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.Throwable: Method com.example.tests.AFISKH_Regression.DataEntry1() on instance com.example.tests.AFISKH_Regression@1813f3e9 depends on not successfully finished methods 
+[com.example.tests.AFISKH_Regression.testHomePageToDE1() on instance com.example.tests.AFISKH_Regression@1813f3e9]
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:156)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.Throwable -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- DataEntry1 -->
       </class> <!-- com.example.tests.AFISKH_Regression -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
